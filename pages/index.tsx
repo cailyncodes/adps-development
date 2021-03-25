@@ -13,6 +13,12 @@ const Home: NextPage<any> = ({
 	const cookies = new Cookies();
 
 	useEffect(() => {
+		if (name) {
+			fetch(`/api/claim?id=${id}&name=${name}&donor=${donor}`);
+		}
+	}, []);
+
+	useEffect(() => {
 		if (!name) {
 			const pendingName = window.prompt('Please enter your full name:');
 			if (pendingName) { 
@@ -68,33 +74,15 @@ const Home: NextPage<any> = ({
 
 export async function getServerSideProps(context) {
 	const { req, query } = context;
-	const { id, donor } = query;
+	const { id = null, donor = null } = query;
 
 	const cookies = new Cookies(req.headers.cookie);
 	const name = cookies.get('name') || null;
 
-	if (name) {
-		const data = {
-			id,
-			donor,
-			name
-		}
-	
-		const options = {
-			method: 'POST',
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(data),
-		}
-
-		fetch('https://hooks.airtable.com/workflows/v1/genericWebhook/appzxB5RlQYgvjqZe/wflmZ5b4q7Xznkc4u/wtr6paPgepr2JRcW2', options);
-	}
-
 	return {
 		props: {
-			id: id || null,
-			donor: donor || null,
+			id,
+			donor,
 			name,
 		}
 	}
