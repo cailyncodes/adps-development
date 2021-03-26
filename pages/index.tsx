@@ -66,6 +66,10 @@ const Home: NextPage<any> = ({
 					<button onClick={() => updateStatus('Contacted - Text')}>Contacted by text</button>
 					<button onClick={() => updateStatus('Contacted - Phone')}>Contacted by phone</button>
 				</div>
+				<div className={styles['action-container']}>
+					<button onClick={() => updateStatus('Donated')}>Donated</button>
+					<button onClick={() => updateStatus('Not donating this year')}>Did not donate</button>
+				</div>
 				{showConfirm && <p>Updated! - You can close this page</p>}
 			</main>
     </div>
